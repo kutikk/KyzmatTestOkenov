@@ -1,0 +1,6 @@
+@okenovTest_HostAddress = http://localhost:5036
+
+GET {{okenovTest_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

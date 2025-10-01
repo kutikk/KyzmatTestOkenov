@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: okenovTest_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: okenovTestDb
+    
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  api:
+    build: .
+    container_name: okenovTest_api
+    depends_on:
+      - db
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=okenovTestDb;Username=user;Password=password"
+      ASPNETCORE_URLS: "http://+:5000"
+    command: ["dotnet", "okenovTest.dll"]
+
+volumes:
+  db_data:
